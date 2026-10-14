@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viết lời nhắn – Sổ lưu bút</title>
+</head>
+<body>
+    <header>
+        <h1>Sổ lưu bút</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Trang chủ</a> |
+            <a href="{{ url_for('add') }}">Viết lời nhắn</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        <h2>Viết lời nhắn</h2>
+
+        {% if error %}
+        <p><strong>{{ error }}</strong></p>
+        {% endif %}
+
+        <form action="{{ url_for('add') }}" method="post">
+            <fieldset>
+                <legend>Thông tin của bạn</legend>
+                <p>
+                    <label for="name"><strong>Tên</strong></label><br>
+                    <input type="text" id="name" name="name" size="40" maxlength="100"
+                           placeholder="Ví dụ: Nguyễn Văn A" value="{{ name }}" autofocus>
+                </p>
+                <p>
+                    <label for="message"><strong>Lời nhắn</strong></label><br>
+                    <textarea id="message" name="message" rows="5" cols="50"
+                              placeholder="Viết điều bạn muốn nhắn gửi...">{{ message }}</textarea>
+                </p>
+                <p>
+                    <button type="submit">Gửi lời nhắn</button>
+                    <a href="{{ url_for('index') }}">Hủy</a>
+                </p>
+            </fieldset>
+        </form>
+    </main>
+
+    <hr>
+
+    <footer>
+        <p><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></p>
+    </footer>
+</body>
+</html>
