@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Chào mừng bạn ghé thăm</h1>
+    <p>Hãy để lại đôi lời trước khi rời đi — mỗi lời nhắn đều được trân trọng.</p>
+</section>
+
+<div class="section-head">
+    <h2>Lời nhắn <span class="count">{{ entries|length }}</span></h2>
+</div>
+
+{% if entries %}
+<ul class="entries">
+    {% for entry in entries %}
+    <li class="card entry">
+        <div class="avatar" style="--hue: {{ entry.name|hue }}" aria-hidden="true">{{ entry.name|initial }}</div>
+        <div class="entry-body">
+            <div class="entry-meta">
+                <span class="entry-name">{{ entry.name }}</span>
+                <time datetime="{{ entry.created_at.isoformat() }}"
+                      title="{{ entry.created_at.strftime('%H:%M, %d/%m/%Y') }}">{{ entry.created_at|timeago }}</time>
+            </div>
+            <p class="entry-message">{{ entry.message }}</p>
+        </div>
+        <form class="entry-delete" action="{{ url_for('delete', id=entry.id) }}" method="post"
+              data-confirm="Xóa lời nhắn của {{ entry.name }}?">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn-icon" aria-label="Xóa lời nhắn của {{ entry.name }}" title="Xóa">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                </svg>
+            </button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="card empty">
+    <h3>Chưa có lời nhắn nào</h3>
+    <p>Sổ lưu bút đang chờ những dòng đầu tiên.</p>
+    <a class="btn btn-primary" href="{{ url_for('add') }}">Viết lời nhắn đầu tiên</a>
+</div>
+{% endif %}
+
+<dialog class="confirm-dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog">
+        <h3 id="confirm-title">Xác nhận xóa</h3>
+        <p class="confirm-text"></p>
+        <p class="confirm-note">Thao tác này không thể hoàn tác.</p>
+        <div class="dialog-actions">
+            <button type="submit" value="cancel" class="btn btn-ghost">Hủy</button>
+            <button type="submit" value="confirm" class="btn btn-danger">Xóa</button>
+        </div>
+    </form>
+</dialog>
+{% endblock %}

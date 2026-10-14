@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Viết lời nhắn · Sổ lưu bút{% endblock %}
+
+{% block content %}
+<div class="narrow">
+    <a class="back-link" href="{{ url_for('index') }}">&larr; Quay lại danh sách</a>
+
+    <div class="card form-card">
+        <h1>Viết lời nhắn</h1>
+        <p class="lead">Đôi lời của bạn sẽ hiển thị công khai trong sổ lưu bút.</p>
+
+        <form action="{{ url_for('add') }}" method="post" class="entry-form" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="field {% if errors.name %}has-error{% endif %}">
+                <label for="name">Tên của bạn</label>
+                <input type="text" id="name" name="name" maxlength="100" autocomplete="name"
+                       placeholder="Ví dụ: Nguyễn Văn A" value="{{ form.name }}"
+                       {% if errors.name %}aria-invalid="true" aria-describedby="name-error"{% endif %}
+                       {% if errors.name or not errors %}autofocus{% endif %}>
+                {% if errors.name %}<p class="field-error" id="name-error">{{ errors.name }}</p>{% endif %}
+            </div>
+
+            <div class="field {% if errors.message %}has-error{% endif %}">
+                <div class="label-row">
+                    <label for="message">Lời nhắn</label>
+                    <span class="char-count" data-for="message" aria-live="polite"></span>
+                </div>
+                <textarea id="message" name="message" rows="6" maxlength="1000"
+                          placeholder="Viết điều bạn muốn nhắn gửi..."
+                          {% if errors.message %}aria-invalid="true" aria-describedby="message-error"{% endif %}
+                          {% if errors.message and not errors.name %}autofocus{% endif %}>{{ form.message }}</textarea>
+                {% if errors.message %}<p class="field-error" id="message-error">{{ errors.message }}</p>{% endif %}
+            </div>
+
+            <div class="form-actions">
+                <a class="btn btn-ghost" href="{{ url_for('index') }}">Hủy</a>
+                <button type="submit" class="btn btn-primary" data-loading-text="Đang gửi...">Gửi lời nhắn</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
