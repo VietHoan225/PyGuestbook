@@ -7,7 +7,7 @@ Bài tập nhóm – **Lập trình web với Python**: ứng dụng sổ lưu b
 - Hiển thị tất cả lời nhắn đã lưu
 - Thêm lời nhắn mới qua form (bắt buộc nhập `name` và `message`)
 - Xóa lời nhắn theo ID
-- Lưu trữ dữ liệu lâu dài (JSON / MySQL)
+- Lưu trữ dữ liệu lâu dài (JSON với bản Manual, MySQL với bản Vibe)
 - Thống kê và biểu đồ (Buổi 2)
 
 ## Hai phiên bản
@@ -19,8 +19,8 @@ Dự án được xây dựng song song 2 phiên bản, mỗi phiên bản nằm
 | Nhánh | `feature/manual` | `feature/vibe` |
 | Thư mục | `manual/` | `vibe/` |
 | Frontend | HTML thuần, không CSS/JS | HTML + CSS + JS, giao diện hiện đại |
-| Lưu trữ Buổi 1 | File JSON (`data.json`) | MySQL |
-| Lưu trữ Buổi 2 | Chuyển sang MySQL | MySQL |
+| Lưu trữ Buổi 1 | List Python (trong bộ nhớ) | MySQL |
+| Lưu trữ Buổi 2 | File JSON (`data.json`) | MySQL |
 
 ## Lộ trình
 
@@ -28,21 +28,22 @@ Dự án được xây dựng song song 2 phiên bản, mỗi phiên bản nằm
 
 | Route | Method | Mô tả |
 |---|---|---|
-| `/` | GET | Lấy danh sách lời nhắn, render `index.html` với biến `entries` |
+| `/` | GET | Lấy danh sách lời nhắn (bản Manual: từ list Python), render `index.html` với biến `entries` |
 | `/add` | GET | Hiển thị form gồm `name`, `message` |
 | `/add` | POST | Kiểm tra không để trống; hợp lệ → lưu và redirect về `/`, lỗi → render lại form kèm thông báo |
 | `/delete/<int:id>` | POST | Xóa lời nhắn theo ID, redirect về `/` |
 
 ### Buổi 2 – Lưu trữ, thống kê và biểu đồ
 
-- Tải dữ liệu khi khởi động, ghi lại khi thêm/xóa để không mất dữ liệu
+- Bản Manual: khi khởi động đọc dữ liệu từ `data.json` (nếu có), khi thêm/xóa ghi lại file JSON để không mất dữ liệu
+- Bản Vibe: dữ liệu đã nằm trong MySQL từ Buổi 1
 - Route `/stats` (GET): tổng số lời nhắn, top 5 người gửi nhiều nhất
 - Biểu đồ cột (matplotlib) số lời nhắn theo người gửi, lưu tạm `static/stats.png` và nhúng vào trang
 
 ## Công nghệ
 
 - Python 3.12, Flask 3 (Jinja2 template)
-- MySQL 8 + PyMySQL
+- MySQL 8 + PyMySQL (bản Vibe)
 - python-dotenv (đọc cấu hình từ `.env`)
 - matplotlib (Buổi 2)
 
@@ -56,9 +57,9 @@ cd manual        # hoặc: cd vibe
 pip install -r requirements.txt
 ```
 
-### 2. Database MySQL
+### 2. Database MySQL (chỉ bản Vibe)
 
-Đăng nhập MySQL bằng tài khoản quản trị và chạy script tạo database, user, bảng:
+Bản Manual không cần bước này. Với bản Vibe, đăng nhập MySQL bằng tài khoản quản trị và chạy script tạo database, user, bảng:
 
 ```bash
 sudo mysql < schema.sql
@@ -84,8 +85,8 @@ cp .env.example .env
 |---|---|
 | `SECRET_KEY` | Khóa bí mật của Flask (flash message) |
 | `FLASK_DEBUG` | `1` để bật chế độ debug |
-| `DATA_FILE` | Đường dẫn file JSON (bản Manual, Buổi 1) |
-| `MYSQL_HOST`, `MYSQL_PORT` | Địa chỉ MySQL server |
+| `DATA_FILE` | Đường dẫn file JSON (bản Manual, Buổi 2) |
+| `MYSQL_HOST`, `MYSQL_PORT` | Địa chỉ MySQL server (bản Vibe) |
 | `MYSQL_USER`, `MYSQL_PASSWORD` | Tài khoản truy cập |
 | `MYSQL_DATABASE` | Tên database (`guestbook`) |
 
