@@ -1,2 +1,5 @@
 # Tài liệu đề bài
 *.docx
+
+# Python
+__pycache__/

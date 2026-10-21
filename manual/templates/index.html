@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ lưu bút</title>
+</head>
+<body>
+    <header>
+        <h1>Sổ lưu bút</h1>
+        <p><em>Cảm ơn bạn đã ghé thăm! Hãy để lại đôi lời trước khi rời đi nhé.</em></p>
+        <nav>
+            <a href="{{ url_for('index') }}">Trang chủ</a> |
+            <a href="{{ url_for('add') }}">Viết lời nhắn</a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        <h2>Lời nhắn ({{ entries|length }})</h2>
+
+        {% for entry in entries %}
+        <article>
+            <h3>{{ entry.name }} <small>#{{ entry.id }}</small></h3>
+            <blockquote>{{ entry.message }}</blockquote>
+            <form action="{{ url_for('delete', id=entry.id) }}" method="post">
+                <button type="submit">Xóa</button>
+            </form>
+        </article>
+        {% if not loop.last %}<hr>{% endif %}
+        {% else %}
+        <p>Chưa có lời nhắn nào. <a href="{{ url_for('add') }}">Hãy là người đầu tiên!</a></p>
+        {% endfor %}
+    </main>
+
+    <hr>
+
+    <footer>
+        <p><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></p>
+    </footer>
+</body>
+</html>
