@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sổ lưu bút{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Bỏ qua tới nội dung</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{{ url_for('index') }}">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5a2.5 2.5 0 0 0-2.5 2.5Z"/>
+                        <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H19v-3"/>
+                    </svg>
+                </span>
+                <span class="brand-text">Sổ lưu bút</span>
+            </a>
+            <nav class="nav" aria-label="Điều hướng chính">
+                {% set endpoint = request.endpoint %}
+                <a href="{{ url_for('index') }}" {% if endpoint == 'index' %}aria-current="page"{% endif %}>Lời nhắn</a>
+                <a href="{{ url_for('stats') }}" {% if endpoint == 'stats' %}aria-current="page"{% endif %}>Thống kê</a>
+                <a class="btn btn-primary btn-sm" href="{{ url_for('add') }}">Viết lời nhắn</a>
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="toasts" role="status" aria-live="polite">
+        {% for category, message in messages %}
+        <div class="toast toast-{{ category }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" aria-label="Đóng thông báo">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <main id="main" class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            PyGuestbook · Bài tập nhóm Lập trình web với Python
+        </div>
+    </footer>
+</body>
+</html>

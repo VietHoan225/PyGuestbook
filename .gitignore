@@ -3,3 +3,13 @@
 
 # Python
 __pycache__/
+
+# Biến môi trường (chứa mật khẩu)
+.env
+
+# File khóa của LibreOffice
+.~lock.*#
+
+# Biểu đồ sinh ra lúc chạy
+vibe/static/stats.png
+vibe/static/stats-dark.png

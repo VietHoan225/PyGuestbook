@@ -59,10 +59,20 @@ pip install -r requirements.txt
 
 ### 2. Database MySQL (chỉ bản Vibe)
 
-Bản Manual không cần bước này. Với bản Vibe, đăng nhập MySQL bằng tài khoản quản trị và chạy script tạo database, user, bảng:
+Bản Manual không cần bước này. Với bản Vibe:
+
+**a) Tạo database và bảng** (chạy lại nhiều lần không lỗi):
 
 ```bash
+cd vibe
 sudo mysql < schema.sql
+```
+
+**b) Tạo tài khoản MySQL cho ứng dụng.** Mật khẩu không nằm trong `schema.sql` để tránh bị commit; thay `mat-khau-cua-ban` bằng mật khẩu của bạn và dùng đúng mật khẩu đó trong `.env`:
+
+```bash
+sudo mysql -e "CREATE USER IF NOT EXISTS 'guestbook'@'localhost' IDENTIFIED BY 'mat-khau-cua-ban';
+GRANT SELECT, INSERT, DELETE ON guestbook.* TO 'guestbook'@'localhost';"
 ```
 
 Bảng `entries`:
@@ -70,7 +80,7 @@ Bảng `entries`:
 | Cột | Kiểu | Ghi chú |
 |---|---|---|
 | `id` | INT UNSIGNED | PK, AUTO_INCREMENT |
-| `name` | VARCHAR(100) | NOT NULL |
+| `name` | VARCHAR(100) | NOT NULL, collation `utf8mb4_0900_as_ci` (phân biệt dấu khi thống kê) |
 | `message` | TEXT | NOT NULL |
 | `created_at` | DATETIME | Mặc định `CURRENT_TIMESTAMP` |
 
@@ -79,11 +89,14 @@ Bảng `entries`:
 ```bash
 cp .env.example .env
 # sửa lại thông tin kết nối MySQL và SECRET_KEY
+python -c "import secrets; print(secrets.token_hex(32))"   # tạo SECRET_KEY
 ```
+
+File `.env` chứa mật khẩu nên đã được đưa vào `.gitignore`. Thiếu biến bắt buộc nào, ứng dụng sẽ báo rõ tên biến đó khi khởi động.
 
 | Biến | Ý nghĩa |
 |---|---|
-| `SECRET_KEY` | Khóa bí mật của Flask (flash message) |
+| `SECRET_KEY` | Khóa bí mật của Flask (session, flash message, CSRF token) |
 | `FLASK_DEBUG` | `1` để bật chế độ debug |
 | `DATA_FILE` | Đường dẫn file JSON (bản Manual, Buổi 2) |
 | `MYSQL_HOST`, `MYSQL_PORT` | Địa chỉ MySQL server (bản Vibe) |
