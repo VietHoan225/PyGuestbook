@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sổ lưu bút</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
@@ -11,7 +12,8 @@
         <p><em>Cảm ơn bạn đã ghé thăm! Hãy để lại đôi lời trước khi rời đi nhé.</em></p>
         <nav>
             <a href="{{ url_for('index') }}">Trang chủ</a> |
-            <a href="{{ url_for('add') }}">Viết lời nhắn</a>
+            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
+            <a href="{{ url_for('stats') }}">Thống kê</a>
         </nav>
     </header>
 

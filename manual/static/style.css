@@ -1,0 +1,77 @@
+:root {
+    color-scheme: light;
+    font-family: Arial, sans-serif;
+    color: #20243a;
+    background: #f5f6fb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 22px;
+    line-height: 1.6;
+}
+
+header {
+    padding: 30px 34px;
+    color: white;
+    background: linear-gradient(120deg, #4859d8, #8068e8);
+    border-radius: 20px;
+    box-shadow: 0 12px 28px #4859d826;
+}
+
+header h1, h2, h3 { font-family: Arial, sans-serif; }
+header h1 { margin: 0; font-size: 2rem; }
+header p { margin: 6px 0 18px; color: #eeedff; }
+nav a { color: white; font-weight: 600; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+
+main { display: grid; gap: 18px; margin: 24px 0; }
+.card, article, fieldset {
+    padding: 22px 26px;
+    background: white;
+    border: 1px solid #e8e9f1;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px #22243a08;
+}
+
+h2 { margin-top: 0; }
+article h3 { margin-top: 0; }
+article h3 small, .card li span { color: #777d95; font-weight: 400; }
+blockquote { margin: 12px 0; padding-left: 14px; border-left: 3px solid #8490ff; }
+.total { margin: 0; color: #5262df; font: 800 3rem Arial, sans-serif; }
+.card ol { padding-left: 24px; }
+.card li { padding: 5px 0; }
+.card li span { float: right; }
+.chart-card img { display: block; width: 100%; height: auto; }
+
+label { display: inline-block; margin-bottom: 5px; }
+input, textarea {
+    width: 100%;
+    padding: 11px 12px;
+    color: inherit;
+    background: #fbfbfe;
+    border: 1px solid #dfe1eb;
+    border-radius: 9px;
+    font: inherit;
+}
+input:focus, textarea:focus { outline: 2px solid #aeb6ff; border-color: #6473ed; }
+button {
+    padding: 10px 17px;
+    color: white;
+    background: #5262df;
+    border: 0;
+    border-radius: 9px;
+    font: 600 1rem Arial, sans-serif;
+    cursor: pointer;
+}
+button:hover { background: #3e4fc8; }
+footer { padding: 12px 0; color: #777d95; text-align: center; }
+
+@media (max-width: 600px) {
+    body { padding: 18px 14px; }
+    header { padding: 24px 22px; }
+    .card, article, fieldset { padding: 18px; }
+}

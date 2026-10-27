@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê – Sổ lưu bút</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Sổ lưu bút</h1>
+        <p>Cùng nhìn lại những lời nhắn đã được gửi.</p>
+        <nav>
+            <a href="{{ url_for('index') }}">Trang chủ</a> |
+            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
+            <a href="{{ url_for('stats') }}">Thống kê</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Tổng quan</h2>
+            <p class="total">{{ total }}</p>
+            <p>lời nhắn đã được ghi</p>
+        </section>
+
+        <section class="card">
+            <h2>5 người gửi nhiều lời nhắn nhất</h2>
+            {% if top_senders %}
+            <ol>
+                {% for name, count in top_senders %}
+                <li>{{ name }} <span>{{ count }} lời nhắn</span></li>
+                {% endfor %}
+            </ol>
+            {% else %}
+            <p>Chưa có dữ liệu thống kê.</p>
+            {% endif %}
+        </section>
+
+        <section class="card chart-card">
+            <h2>Biểu đồ lời nhắn theo người gửi</h2>
+            <img src="{{ chart_url }}" alt="Biểu đồ số lời nhắn theo người gửi">
+        </section>
+    </main>
+
+    <footer><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></footer>
+</body>
+</html>

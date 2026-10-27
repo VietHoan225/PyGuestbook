@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viết lời nhắn – Sổ lưu bút</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <h1>Sổ lưu bút</h1>
         <nav>
             <a href="{{ url_for('index') }}">Trang chủ</a> |
-            <a href="{{ url_for('add') }}">Viết lời nhắn</a>
+            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
+            <a href="{{ url_for('stats') }}">Thống kê</a>
         </nav>
     </header>
 
@@ -25,7 +27,6 @@
 
         <form action="{{ url_for('add') }}" method="post">
             <fieldset>
-                <legend>Thông tin của bạn</legend>
                 <p>
                     <label for="name"><strong>Tên</strong></label><br>
                     <input type="text" id="name" name="name" size="40" maxlength="100"

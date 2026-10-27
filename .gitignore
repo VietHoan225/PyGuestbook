@@ -3,3 +3,6 @@
 
 # Python
 __pycache__/
+.venv
+manual/data.json
+manual/static/stats.png
