@@ -7,48 +7,44 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Sổ lưu bút</h1>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">✎</span>Sổ lưu bút</a>
         <nav>
-            <a href="{{ url_for('index') }}">Trang chủ</a> |
-            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
+            <a href="{{ url_for('index') }}">Lời nhắn</a>
             <a href="{{ url_for('stats') }}">Thống kê</a>
+            <a class="button button-primary button-small active" href="{{ url_for('add') }}">Viết lời nhắn</a>
         </nav>
     </header>
 
-    <hr>
+    <main class="container narrow">
+        <a class="back-link" href="{{ url_for('index') }}">← Quay lại danh sách</a>
+        <section class="card form-card">
+            <h1>Viết lời nhắn</h1>
+            <p class="lead">Đôi lời của bạn sẽ xuất hiện trong sổ lưu bút.</p>
 
-    <main>
-        <h2>Viết lời nhắn</h2>
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
 
-        {% if error %}
-        <p><strong>{{ error }}</strong></p>
-        {% endif %}
-
-        <form action="{{ url_for('add') }}" method="post">
-            <fieldset>
+            <form action="{{ url_for('add') }}" method="post" class="entry-form">
                 <p>
-                    <label for="name"><strong>Tên</strong></label><br>
-                    <input type="text" id="name" name="name" size="40" maxlength="100"
+                    <label for="name">Tên của bạn</label>
+                    <input type="text" id="name" name="name" maxlength="100"
                            placeholder="Ví dụ: Nguyễn Văn A" value="{{ name }}" autofocus>
                 </p>
                 <p>
-                    <label for="message"><strong>Lời nhắn</strong></label><br>
-                    <textarea id="message" name="message" rows="5" cols="50"
+                    <label for="message">Lời nhắn</label>
+                    <textarea id="message" name="message" rows="5"
                               placeholder="Viết điều bạn muốn nhắn gửi...">{{ message }}</textarea>
                 </p>
-                <p>
-                    <button type="submit">Gửi lời nhắn</button>
-                    <a href="{{ url_for('index') }}">Hủy</a>
-                </p>
-            </fieldset>
-        </form>
+                <div class="form-actions">
+                    <a class="button button-ghost" href="{{ url_for('index') }}">Hủy</a>
+                    <button class="button button-primary" type="submit">Gửi lời nhắn</button>
+                </div>
+            </form>
+        </section>
     </main>
 
-    <hr>
-
-    <footer>
-        <p><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></p>
-    </footer>
+    <footer>PyGuestbook · Bài tập nhóm Lập trình web với Python</footer>
 </body>
 </html>

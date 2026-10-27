@@ -7,42 +7,47 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Sổ lưu bút</h1>
-        <p>Cùng nhìn lại những lời nhắn đã được gửi.</p>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">✎</span>Sổ lưu bút</a>
         <nav>
-            <a href="{{ url_for('index') }}">Trang chủ</a> |
-            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
-            <a href="{{ url_for('stats') }}">Thống kê</a>
+            <a href="{{ url_for('index') }}">Lời nhắn</a>
+            <a class="active" href="{{ url_for('stats') }}">Thống kê</a>
+            <a class="button button-primary button-small" href="{{ url_for('add') }}">Viết lời nhắn</a>
         </nav>
     </header>
 
-    <main>
-        <section class="card">
-            <h2>Tổng quan</h2>
-            <p class="total">{{ total }}</p>
-            <p>lời nhắn đã được ghi</p>
+    <main class="container">
+        <section class="hero compact-hero">
+            <h1>Thống kê</h1>
+            <p>Tổng quan những lời nhắn trong sổ lưu bút.</p>
         </section>
 
-        <section class="card">
-            <h2>5 người gửi nhiều lời nhắn nhất</h2>
-            {% if top_senders %}
-            <ol>
-                {% for name, count in top_senders %}
-                <li>{{ name }} <span>{{ count }} lời nhắn</span></li>
-                {% endfor %}
-            </ol>
-            {% else %}
-            <p>Chưa có dữ liệu thống kê.</p>
-            {% endif %}
+        <section class="card total-card">
+            <span class="muted">Tổng số lời nhắn</span>
+            <strong class="total">{{ total }}</strong>
         </section>
 
-        <section class="card chart-card">
-            <h2>Biểu đồ lời nhắn theo người gửi</h2>
-            <img src="{{ chart_url }}" alt="Biểu đồ số lời nhắn theo người gửi">
+        <section class="stats-layout">
+            <div class="card stats-card">
+                <h2>5 người gửi nhiều nhất</h2>
+                {% if top_senders %}
+                <ol class="leaderboard">
+                    {% for name, count in top_senders %}
+                    <li><span class="rank">{{ loop.index }}</span><span class="leader-name">{{ name }}</span><span class="leader-total">{{ count }} lời nhắn</span></li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="muted">Chưa có dữ liệu thống kê.</p>
+                {% endif %}
+            </div>
+
+            <div class="card stats-card chart-card">
+                <h2>Số lời nhắn theo người gửi</h2>
+                <img src="{{ chart_url }}" alt="Biểu đồ cột số lời nhắn theo người gửi">
+            </div>
         </section>
     </main>
 
-    <footer><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></footer>
+    <footer>PyGuestbook · Bài tập nhóm Lập trình web với Python</footer>
 </body>
 </html>

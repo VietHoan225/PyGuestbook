@@ -7,39 +7,49 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Sổ lưu bút</h1>
-        <p><em>Cảm ơn bạn đã ghé thăm! Hãy để lại đôi lời trước khi rời đi nhé.</em></p>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">✎</span>Sổ lưu bút</a>
         <nav>
-            <a href="{{ url_for('index') }}">Trang chủ</a> |
-            <a href="{{ url_for('add') }}">Viết lời nhắn</a> |
+            <a class="active" href="{{ url_for('index') }}">Lời nhắn</a>
             <a href="{{ url_for('stats') }}">Thống kê</a>
+            <a class="button button-primary button-small" href="{{ url_for('add') }}">Viết lời nhắn</a>
         </nav>
     </header>
 
-    <hr>
+    <main class="container">
+        <section class="hero">
+            <h1>Chào mừng bạn ghé thăm</h1>
+            <p>Hãy để lại đôi lời trước khi rời đi — mỗi lời nhắn đều được trân trọng.</p>
+        </section>
 
-    <main>
-        <h2>Lời nhắn ({{ entries|length }})</h2>
+        <div class="section-heading">
+            <h2>Lời nhắn <span class="count">{{ entries|length }}</span></h2>
+        </div>
 
-        {% for entry in entries %}
-        <article>
-            <h3>{{ entry.name }} <small>#{{ entry.id }}</small></h3>
-            <blockquote>{{ entry.message }}</blockquote>
-            <form action="{{ url_for('delete', id=entry.id) }}" method="post">
-                <button type="submit">Xóa</button>
-            </form>
-        </article>
-        {% if not loop.last %}<hr>{% endif %}
+        {% if entries %}
+        <section class="entries">
+            {% for entry in entries %}
+            <article class="card entry">
+                <div class="avatar" aria-hidden="true">{{ entry.name[0]|upper }}</div>
+                <div class="entry-content">
+                    <h3>{{ entry.name }}</h3>
+                    <p>{{ entry.message }}</p>
+                </div>
+                <form action="{{ url_for('delete', id=entry.id) }}" method="post">
+                    <button class="delete-button" type="submit" aria-label="Xóa lời nhắn của {{ entry.name }}" title="Xóa">×</button>
+                </form>
+            </article>
+            {% endfor %}
+        </section>
         {% else %}
-        <p>Chưa có lời nhắn nào. <a href="{{ url_for('add') }}">Hãy là người đầu tiên!</a></p>
-        {% endfor %}
+        <section class="card empty-state">
+            <h3>Chưa có lời nhắn nào</h3>
+            <p>Sổ lưu bút đang chờ những dòng đầu tiên.</p>
+            <a class="button button-primary" href="{{ url_for('add') }}">Viết lời nhắn đầu tiên</a>
+        </section>
+        {% endif %}
     </main>
 
-    <hr>
-
-    <footer>
-        <p><small>PyGuestbook – Bài tập nhóm Lập trình web với Python</small></p>
-    </footer>
+    <footer>PyGuestbook · Bài tập nhóm Lập trình web với Python</footer>
 </body>
 </html>

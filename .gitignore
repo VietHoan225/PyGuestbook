@@ -6,3 +6,7 @@ __pycache__/
 .venv
 manual/data.json
 manual/static/stats.png
+
+.env
+
+vibe
